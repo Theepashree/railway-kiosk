@@ -1,0 +1,246 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Railway Station Map</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="map-container">
+     
+      <header class="search-bar">
+    
+        <div class="app-name">TELL-V-PORT</div>
+
+       
+        <div class="date-time" id="date-time"></div>
+      </header>
+
+     
+      <div class="body-container">
+    
+        <aside class="filter-section">
+          <h3>WHAT ARE YOU LOOKING FOR?</h3>
+          <div class="card-container">
+            <div class="card" data-filter="trains">
+              <img src="train-icon.png" alt="Trains" />
+              <p>TRAINS</p>
+            </div>
+            <div class="card" data-filter="platforms">
+              <img src="platform-icon.png" alt="Platforms" />
+              <p>PLATFORMS</p>
+            </div>
+            <div class="card" data-filter="cloakroom">
+              <img src="cloakroom-icon.png" alt="Cloakroom" />
+              <p>CLOAK ROOM</p>
+            </div>
+            <div class="card" data-filter="ticketcounter">
+              <img src="ticket-icon.png" alt="Ticket Counter" />
+              <p>TICKET COUNTER</p>
+            </div>
+            <div class="card" data-filter="restroom">
+              <img src="restroom-icon.png" alt="Restroom" />
+              <p>RESTROOM</p>
+            </div>
+            <div class="card" data-filter="foodcourt">
+              <img src="foodcourt-icon.png" alt="Food Court" />
+              <p>FOOD COURT</p>
+            </div>
+          </div>
+        </aside>
+
+      
+        <section class="map-display">
+          <div id="map-placeholder">
+            <h2>Railway Station Map</h2>
+            <p>The map will be displayed here.</p>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script>
+      
+      function updateDateTime() {
+        const now = new Date();
+        const options = {
+          weekday: "short",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        };
+        document.getElementById("date-time").textContent = now.toLocaleString(
+          "en-US",
+          options
+        );
+      }
+
+    
+      setInterval(updateDateTime, 1000);
+
+     
+      updateDateTime();
+
+      document.querySelectorAll(".card").forEach((card) => {
+        card.addEventListener("click", (e) => {
+          const filter = e.currentTarget.dataset.filter;
+          alert(`Filtering for: ${filter}`);
+        });
+      });
+    </script>
+    <script src="renderer.js"></script>
+  </body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Railway Station Map</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+  </head>
+  <body>
+    <div class="map-container">
+      <!-- Header Section -->
+      <header class="search-bar">
+        <!-- Left: App Name -->
+        <div class="app-name">TELL-V-PORT</div>
+
+        <!-- Right: Date and Time -->
+        <div class="date-time" id="date-time"></div>
+      </header>
+
+      <!-- Body Section -->
+      <div class="body-container">
+        <!-- Main Map Section -->
+        <section class="map-display">
+          <div id="map"></div>
+        </section>
+
+        <!-- Right: Filter Section -->
+        <aside class="filter-section">
+          <!-- Change Language Dropdown -->
+          <div id="google_translate_element"></div>
+
+          <!-- Filters -->
+          <div class="card-container">
+            <div class="card" data-filter="trains">
+              <img src="assets/train.png" alt="Trains" />
+              <p>TRAINS</p>
+            </div>
+            <div class="card" data-filter="platforms">
+              <img src="assets/train-platform.png" alt="Platforms" />
+              <p>PLATFORMS</p>
+            </div>
+            <div class="card" data-filter="cloakroom">
+              <img src="assets/cloakroom.png" alt="Cloakroom" />
+              <p>CLOAK ROOM</p>
+            </div>
+            <div class="card" data-filter="ticketcounter">
+              <img src="assets/ticket-counter.png" alt="Ticket Counter" />
+              <p>TICKET COUNTER</p>
+            </div>
+            <div class="card" data-filter="restroom">
+              <img src="assets/restroom.png" alt="Restroom" />
+              <p>RESTROOM</p>
+            </div>
+            <div class="card" data-filter="foodcourt">
+              <img src="assets/food-court.png" alt="Food Court" />
+              <p>FOOD COURT</p>
+            </div>
+            <div class="card" data-filter="parking">
+              <img src="assets/parking.png" alt="Parking" />
+              <p>PARKING</p>
+            </div>
+            <div class="card" data-filter="station-exit">
+              <img src="assets/station-exit.png" alt="Station exit" />
+              <p>STATION EXIT</p>
+            </div>
+          </div>
+
+          <!-- Chatbot Button -->
+          <button class="btn chatbot-btn">Chat with Assistant</button>
+        </aside>
+      </div>
+    </div>
+
+    <script>
+      // Update Date and Time
+      function updateDateTime() {
+        const now = new Date();
+        const options = {
+          weekday: "short",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        };
+        document.getElementById("date-time").textContent = now.toLocaleString(
+          "en-US",
+          options
+        );
+      }
+
+      // Update the date and time every second
+      setInterval(updateDateTime, 1000);
+
+      // Call immediately to initialize
+      updateDateTime();
+
+      // Card Filter Functionality
+      document.querySelectorAll(".card").forEach((card) => {
+        card.addEventListener("click", (e) => {
+          const filter = e.currentTarget.dataset.filter;
+          alert(`Filtering for: ${filter}`); // Replace with actual filtering logic
+        });
+      });
+    </script>
+    <script type="text/javascript">
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          { pageLanguage: "en" },
+          "google_translate_element"
+        );
+      }
+    </script>
+    <script
+      type="text/javascript"
+      src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+    ></script>
+
+    <script>
+      var map = L.map("map");
+      map.setView([13.0827, 80.2757], 13);
+
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution:
+          '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      }).addTo(map);
+
+      setTimeout(() => {
+        map.invalidateSize();
+      }, 100);
+    </script>
+  </body>
+</html>
